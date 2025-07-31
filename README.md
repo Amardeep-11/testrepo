@@ -81,3 +81,6 @@ FinalProject/
 # ECR repository created - re-trigger build
 # Trigger GitHub Actions with fixed permissions - Thu Jul 31 22:19:46 UTC 2025
 # Manual trigger - Thu Jul 31 22:32:11 UTC 2025
+# Testing GitHub Actions workflow - Thu Jul 31 22:34:17 UTC 2025
+# ECR repository: clo835-final-project
+# AWS Region: us-east-1

@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [ main, master ]
 
-permissions:
-  contents: write
-  pull requests: write
-
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: clo835-final-project
