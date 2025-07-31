@@ -83,6 +83,27 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: ${{ env.AWS_REGION }}
+    - name: Install eksctl
+      run: |
+        curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        sudo mv /tmp/eksctl /usr/local/bin
+        eksctl version
+    - name: Create EKS cluster if not exists
+      run: |
+        if ! aws eks describe-cluster --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }} 2>/dev/null; then
+          echo "Creating EKS cluster..."
+          eksctl create cluster \
+            --name ${{ env.EKS_CLUSTER }} \
+            --region ${{ env.AWS_REGION }} \
+            --nodegroup-name standard-workers \
+            --node-type t3.medium \
+            --nodes 2 \
+            --nodes-min 2 \
+            --nodes-max 4 \
+            --managed
+        else
+          echo "EKS cluster already exists"
+        fi
     - name: Update kubeconfig
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
@@ -90,3 +111,11 @@ jobs:
       run: |
         kubectl apply -f k8s/
         kubectl rollout status deployment/flask-app -n final --timeout=300s
+    - name: Get service URL
+      run: |
+        echo "Waiting for LoadBalancer to be ready..."
+        kubectl wait --for=condition=available --timeout=300s deployment/flask-app -n final
+        kubectl get service flask-app-service -n final
+        # Get the LoadBalancer URL
+        kubectl get service flask-app-service -n final -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' > service_url.txt
+        echo "Service URL: $(cat service_url.txt)"
