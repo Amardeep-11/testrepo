@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: final
+data:
+  BACKGROUND_IMAGE_URL: "https://images.unsplash.com/photo-1557683316-973673baf926?w=800"
+  STUDENT_NAME: "Amardeep Puri"
+  S3_BUCKET: "clo835-final-project"
+  S3_IMAGE_KEY: "background.jpg"
+  DB_NAME: "clo835_db" 
