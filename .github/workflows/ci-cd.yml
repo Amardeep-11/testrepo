@@ -90,7 +90,13 @@ jobs:
         eksctl version
     - name: Create EKS cluster if not exists
       run: |
-        if ! aws eks describe-cluster --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }} 2>/dev/null; then
+        echo "Checking for existing EKS cluster..."
+        if aws eks describe-cluster --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }} 2>/dev/null; then
+          echo "EKS cluster already exists"
+        else
+          echo "Cleaning up any existing CloudFormation stacks..."
+          aws cloudformation delete-stack --stack-name eksctl-${{ env.EKS_CLUSTER }}-cluster --region ${{ env.AWS_REGION }} 2>/dev/null || echo "No stack to delete"
+          aws cloudformation wait stack-delete-complete --stack-name eksctl-${{ env.EKS_CLUSTER }}-cluster --region ${{ env.AWS_REGION }} 2>/dev/null || echo "Stack deletion completed"
           echo "Creating EKS cluster..."
           eksctl create cluster \
             --name ${{ env.EKS_CLUSTER }} \
@@ -101,8 +107,6 @@ jobs:
             --nodes-min 2 \
             --nodes-max 4 \
             --managed
-        else
-          echo "EKS cluster already exists"
         fi
     - name: Update kubeconfig
       run: |
