@@ -69,17 +69,16 @@ jobs:
         
         echo "✅ Image pushed to ECR: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-    - name: Update deployment manifests
-      run: |
-        # Update the deployment manifest with the new image tag
-        sed -i "s|image: .*|image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}|g" k8s/app-deployment.yaml
-        
-        # Commit and push the updated manifest
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add k8s/app-deployment.yaml
-        git commit -m "Update deployment image to ${{ github.sha }}" || echo "No changes to commit"
-        git push
+- name: Update deployment manifests
+run: |
+sed -i "s|image: .*|image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}|g" k8s/app-deployment.yaml
+git config --local user.email "action@github.com"
+git config --local user.name "GitHub Action"
+git add k8s/app-deployment.yaml
+git commit -m "Update deployment image to ${{ github.sha }}" || echo "No changes to commit"
+git push
+env:
+GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     needs: build-and-push
