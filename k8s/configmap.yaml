@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
-  namespace: final-project
+  namespace: project
 data:
   BACKGROUND_IMAGE_URL: "https://clo835-final-project-s3b.s3.us-east-1.amazonaws.com/background.jpg"
   STUDENT_NAME: "Amardeep Puri"

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
-  namespace: final-project
+  namespace: project
   labels:
     app: mysql
 spec:
