@@ -29,10 +29,10 @@ COPY app/ .
 # Create static/images directory
 RUN mkdir -p static/images
 
-# Create non-root user for security
+# Create non-root user for security (but run as root for port binding)
 RUN useradd --create-home --shell /bin/bash app && \
     chown -R app:app /app
-USER app
+# USER app  # Comment out to run as root
 
 # Expose port 8080
 EXPOSE 8080
@@ -42,4 +42,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
 
 # Run the application
-CMD ["python", "app.py"] 
+CMD ["python", "app.py"]
