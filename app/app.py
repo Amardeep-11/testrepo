@@ -190,3 +190,4 @@ if __name__ == '__main__':
     
     # Start Flask app on port 81 as required
     app.run(host='0.0.0.0', port=8080, debug=True) # Force rebuild - Fri Aug  1 04:01:13 UTC 2025
+# Test commit - Fri Aug  1 04:15:45 UTC 2025
