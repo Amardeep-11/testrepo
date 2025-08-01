@@ -18,10 +18,12 @@ spec:
       serviceAccountName: clo835
       containers:
       - name: flask-app
-        image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/clo835-final-project:latest
+        image: 767398074604.dkr.ecr.us-east-1.amazonaws.com/clo835-final-project:latest
         ports:
         - containerPort: 81
         env:
+        - name: PORT
+          value: "81"
         - name: DB_HOST
           value: "mysql-service"
         - name: DB_USER
