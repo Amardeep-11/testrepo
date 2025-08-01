@@ -20,7 +20,7 @@ spec:
       - name: flask-app
         image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/clo835-final-project:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 81
         env:
         - name: DB_HOST
           value: "mysql-service"
@@ -69,12 +69,12 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 81
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 81
           initialDelaySeconds: 5
           periodSeconds: 5 
