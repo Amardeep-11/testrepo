@@ -189,4 +189,4 @@ if __name__ == '__main__':
     init_database()
     
     # Start Flask app on port 81 as required
-    app.run(host='0.0.0.0', port=81, debug=True) 
+    app.run(host='0.0.0.0', port=81, debug=True) # Force rebuild - Fri Aug  1 04:01:13 UTC 2025
