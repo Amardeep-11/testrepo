@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: CLO835
-  namespace: final
+  namespace: final-project
 rules:
 - apiGroups: [""]
   resources: ["namespaces"]
@@ -15,11 +15,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: clo835-binding
-  namespace: final
+  namespace: final-project
 subjects:
 - kind: ServiceAccount
   name: clo835
-  namespace: final
+  namespace: final-project
 roleRef:
   kind: Role
   name: CLO835

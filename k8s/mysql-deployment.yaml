@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
-  namespace: final
+  namespace: final-project
   labels:
     app: mysql
 spec:
